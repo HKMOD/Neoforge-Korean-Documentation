@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
                        xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>NeoForged docs</ShortName>
-  <Description>Search NeoForged docs</Description>
+  <ShortName>NeoForged 비공식 한글 문서</ShortName>
+  <Description>Search NeoForged 비공식 한글 문서</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://docs.neoforged.net/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://docs.neoforged.net/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://docs.neoforged.net/opensearch.xml" />
-  <moz:SearchForm>https://docs.neoforged.net/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://docs.neoforged.net/Neoforge-Korean-Documentation/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://docs.neoforged.net/Neoforge-Korean-Documentation/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://docs.neoforged.net/Neoforge-Korean-Documentation/opensearch.xml" />
+  <moz:SearchForm>https://docs.neoforged.net/Neoforge-Korean-Documentation/</moz:SearchForm>
 </OpenSearchDescription>
