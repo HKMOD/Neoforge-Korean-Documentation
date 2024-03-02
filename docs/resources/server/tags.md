@@ -1,49 +1,47 @@
-Tags
+태그
 ====
 
-Tags are generalized sets of objects in the game used for grouping related things together and providing fast membership checks.
+태그는 게임속 여러 객체들을 하나로 묶고 이를 통해 추가적인 특성을 부여할 때 사용합니다. 예를 들어 화살들을 하나로 묶는 태그 `arrows`를 아이템에 부여하면 화살 및 쇠뇌를 발사할 때 탄약으로 사용할 수 있습니다.
 
-Declaring Your Own Groupings
+새로운 태그 정의하기
 ----------------------------
-Tags are declared in your mod's [datapack][datapack]. For example, a `TagKey<Block>` with a given identifier of  `modid:foo/tagname` will reference a tag at `/data/<modid>/tags/blocks/foo/tagname.json`. Tags for `Block`s, `Item`s, `EntityType`s, `Fluid`s, and `GameEvent`s use the plural forms for their folder location while all other registries use the singular version (`EntityType` uses the folder `entity_types` while `Potion` would use the folder `potion`).
-Similarly, you may append to or override tags declared in other domains, such as Vanilla, by declaring your own JSONs.
-For example, to add your own mod's saplings to the Vanilla sapling tag, you would specify it in `/data/minecraft/tags/blocks/saplings.json`, and Vanilla will merge everything into one tag at reload, if the `replace` option is false.
-If `replace` is true, then all entries before the json specifying `replace` will be removed.
-Values listed that are not present will cause the tag to error unless the value is listed using an `id` string and `required` boolean set to false, as in the following example:
+태그는 모드의 [데이터 팩][datapack]으로 정의합니다. 예를 들어 `modid:foo/tagname`이란 이름의 `TagKey<Block>`은 `/data/<modid>/tags/blocks/foo/tagname.json`로 정의합니다. `Block`, `Item`, `EntityType`, `Fluid`, 그리고 `GameEvent`는 태그 폴더의 이름에 복수형을 사용하고, 나머지는 전부 단수형을 사용합니다. (`EntityType` 태그는 `entity_types` 폴더에 들어있는 반면 `Potion` 태그는 `potion`에 들어갑니다).
+
+태그 또한 데이터의 일종이니 위 위치에 JSON 파일을 추가하여 바닐라 및 다른 모드에서 추가한 태그에 항목을 추가하거나, 아니면 덮어 씌울 수도 있습니다. 예를 들어, 모드에서 새로 추가한 묘목에 `saplings` 태그를 추가하여 다른 묘목처럼 동작하게 하려면 모드의 에셋 폴더에 `/data/minecraft/tags/blocks/saplings.json`을 작성하세요. 그러면 마인크래프트가 데이터 팩을 다시 불러올 때 기존 묘목 태그 목록과 합치거나, `replace` 항목이 `true`로 설정되어 있다면 대체합니다. `replace` 항목은 `true`로 설정될 경우 해당 JSON 파일보다 먼저 태그에 추가된 객체들은 제거됩니다.
+
+만약 태그에 추가된 객체가 존재하지 않을 때, 아래처럼 `required`를 `false`로 지정하지 않는다면 오류가 발생합니다:
 
 ```js
 {
-  "replace": false,
+  "replace": false, // 다른 항목들을 제거하지 않음
   "values": [
     "minecraft:gold_ingot",
     "mymod:my_ingot",
     {
       "id": "othermod:ingot_other",
-      "required": false
+      "required": false // othermod:ingot_other가 누락되어도 오류가 발생하지 않도록 함.
     }
   ]
 }
 ```
 
-See the [Vanilla wiki][tags] for a description of the base syntax.
+태그 파일의 문법은 [공식 위키][tags]를 참고하세요.
 
-There is also a Forge extension on the Vanilla syntax.
-You may declare a `remove` array of the same format as the `values` array. Any values listed here will be removed from the tag. This acts as a finer grained version of the Vanilla `replace` option.
+포지는 기존 태그 파일의 문법을 확장합니다: 위 `values` 항목과 같은 형식으로 `remove` 항목을 추가할 수 있습니다. `remove`에 나열된 객체들은 해당 태그가 제거됩니다.
 
-
-Using Tags In Code
+코드에서 태그 사용하기
 ------------------
-Tags for all registries are automatically sent from the server to any remote clients on login and reload. `Block`s, `Item`s, `EntityType`s, `Fluid`s, and `GameEvent`s are special cased as they have `Holder`s allowing for available tags to be accessible through the object itself.
+클라이언트가 서버에 접속할 시, 서버는 클라이언트에 모든 레지스트리의 태그를 전송합니다. `Block`, `Item`, `EntityType`, `Fluid`, 그리고 `GameEvent`는 태그를 특별하게 관리하는데, `Holder`를 통해 태그를 저장합니다.
 
 :::note
-Intrusive `Holder`s may be removed in a future version of Minecraft. If they are, the below methods can be used instead to query the associated `Holder`s.
+Intrusive `Holder`는 추후 마인크래프트에서 제거될 것으로 추정됩니다. 만약 제거될 예정이라면 아래 메서드를 대신 사용해 `Holder`의 태그를 받아올 수 있습니다.
 :::
 
 ### ITagManager
 
 Forge wrapped registries provide an additional helper for creating and managing tags through `ITagManager` which can be obtained via `IForgeRegistry#tags`. Tags can be created using using `#createTagKey` or `#createOptionalTagKey`. Tags or registry objects can also be checked for either or using `#getTag` or `#getReverseTag` respectively.
 
-#### Custom Registries
+#### 새로 만든 레지스트리
 
 Custom registries can create tags when constructing their `DeferredRegister` via `#createTagKey` or `#createOptionalTagKey` respectively. Their tags or registry objects can then checked for either using the `IForgeRegistry` obtained by calling `DeferredRegister#makeRegistry`.
 
