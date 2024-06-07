@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkneoforged_docs=self.webpackChunkneoforged_docs||[]).push([[7722],{9887:e=>{e.exports=JSON.parse('{"pluginId":"neogradle","version":"5.x","label":"FG5","banner":"unmaintained","badge":true,"noIndex":false,"className":"docs-version-5.x","isLast":false,"docsSidebars":{},"docs":{"index":{"id":"index","title":"index","description":""}}}')}}]);
